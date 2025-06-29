@@ -16,7 +16,38 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
+        // Get kosans for dashboard display (limit to recent 5)
+        $kosans = \App\Models\Kosan::with('facilities')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        // Calculate stats
+        $totalKosans = \App\Models\Kosan::count();
+        $availableKosans = \App\Models\Kosan::where('status', 'Tersedia')->count();
+        $featuredKosans = \App\Models\Kosan::where('featured', true)->count();
+
+        // Get counts by type
+        $kosanTypes = \App\Models\Kosan::select('type')
+            ->distinct()
+            ->get()
+            ->pluck('type')
+            ->toArray();
+
+        $typeStats = [];
+        foreach ($kosanTypes as $type) {
+            $typeStats[$type] = \App\Models\Kosan::where('type', $type)->count();
+        }
+
+        return Inertia::render('dashboard', [
+            'kosans' => $kosans,
+            'stats' => [
+                'total' => $totalKosans,
+                'available' => $availableKosans,
+                'featured' => $featuredKosans,
+                'types' => $typeStats,
+            ]
+        ]);
     })->name('dashboard');
 
     // Kosan CRUD routes
