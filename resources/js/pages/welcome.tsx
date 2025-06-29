@@ -1,19 +1,33 @@
-import { type SharedData } from '@/types';
+import { type Kosan, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function Welcome() {
+interface WelcomeProps {
+    featuredKosans: Kosan[];
+}
+
+export default function Welcome({ featuredKosans }: WelcomeProps) {
     const { auth } = usePage<SharedData>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Format price to Indonesian Rupiah
+    const formatPrice = (price: number) => {
+        if (price >= 1000000) {
+            return `Rp ${(price / 1000000).toFixed(1)}jt/bulan`;
+        } else if (price >= 1000) {
+            return `Rp ${(price / 1000).toFixed(0)}rb/bulan`;
+        }
+        return `Rp ${price}/bulan`;
+    };
+
     return (
         <>
-            <Head title="Smart Living BPN - Find Your Perfect Home">
+            <Head title="Smart Living BPN - Cari Kos & Kamar Impianmu">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=poppins:300,400,500,600,700|inter:400,500,600,700" rel="stylesheet" />
                 <meta
                     name="description"
-                    content="Find your perfect rental home with Smart Living BPN. Browse thousands of properties, schedule viewings, and secure your dream home."
+                    content="Temukan kos dan kamar terbaik di Balikpapan dengan Smart Living BPN. Cari, bandingkan, dan booking kamar kos dengan mudah sesuai budget dan kebutuhanmu."
                 />
             </Head>
             <div className="min-h-screen bg-white">
@@ -37,25 +51,31 @@ export default function Welcome() {
                                         href="#featured"
                                         className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
                                     >
-                                        Featured Homes
+                                        Kos Populer
                                     </a>
                                     <a
                                         href="#how-it-works"
                                         className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
                                     >
-                                        How it Works
+                                        Cara Kerja
+                                    </a>
+                                    <a
+                                        href="#services"
+                                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                    >
+                                        Fasilitas
                                     </a>
                                     <a
                                         href="#testimonials"
                                         className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
                                     >
-                                        Testimonials
+                                        Testimoni
                                     </a>
                                     <a
                                         href="#areas"
                                         className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
                                     >
-                                        Areas We Cover
+                                        Wilayah
                                     </a>
                                 </div>
                             </div>
@@ -130,25 +150,31 @@ export default function Welcome() {
                                     href="#featured"
                                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
                                 >
-                                    Featured Homes
+                                    Kos Populer
                                 </a>
                                 <a
                                     href="#how-it-works"
                                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
                                 >
-                                    How it Works
+                                    Cara Kerja
+                                </a>
+                                <a
+                                    href="#services"
+                                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                >
+                                    Fasilitas
                                 </a>
                                 <a
                                     href="#testimonials"
                                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
                                 >
-                                    Testimonials
+                                    Testimoni
                                 </a>
                                 <a
                                     href="#areas"
                                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
                                 >
-                                    Areas We Cover
+                                    Wilayah
                                 </a>
 
                                 <div className="border-t border-gray-200 pt-4 pb-3">
@@ -188,18 +214,18 @@ export default function Welcome() {
                             <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:flex lg:flex-col lg:justify-center lg:text-left">
                                 <div>
                                     <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-600">
-                                        Rental Made Simple
+                                        Cari Kos Mudah & Cepat
                                     </span>
                                 </div>
                                 <h1 className="mt-6">
                                     <span className="mt-1 block text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl">
-                                        <span className="block text-gray-900">Find Your Dream</span>
-                                        <span className="block text-blue-600">Home Today</span>
+                                        <span className="block text-gray-900">Temukan Kos</span>
+                                        <span className="block text-blue-600">Nyaman & Terjangkau</span>
                                     </span>
                                 </h1>
                                 <p className="mt-6 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                                    Browse thousands of rental properties in Balikpapan. From cozy apartments to spacious family homes, we make
-                                    finding your perfect place effortless and enjoyable.
+                                    Jelajahi ribuan pilihan kos dan kamar di Balikpapan. Dari kos eksklusif hingga kos murah, kami membantu kamu
+                                    menemukan hunian yang sesuai dengan kebutuhanmu.
                                 </p>
 
                                 <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start lg:gap-8">
@@ -212,7 +238,7 @@ export default function Welcome() {
                                             </div>
                                         </div>
                                         <div className="ml-3">
-                                            <p className="text-sm font-medium text-gray-900">Verified Listings</p>
+                                            <p className="text-sm font-medium text-gray-900">Kos Terverifikasi</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center">
@@ -229,7 +255,7 @@ export default function Welcome() {
                                             </div>
                                         </div>
                                         <div className="ml-3">
-                                            <p className="text-sm font-medium text-gray-900">24/7 Support</p>
+                                            <p className="text-sm font-medium text-gray-900">Booking Instan</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center">
@@ -246,7 +272,7 @@ export default function Welcome() {
                                             </div>
                                         </div>
                                         <div className="ml-3">
-                                            <p className="text-sm font-medium text-gray-900">Secure Payments</p>
+                                            <p className="text-sm font-medium text-gray-900">Pembayaran Aman</p>
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +302,7 @@ export default function Welcome() {
                                                 </div>
                                                 <div className="ml-3">
                                                     <p className="text-sm font-medium text-gray-900">4.8/5 Rating</p>
-                                                    <p className="text-xs text-gray-500">Based on 2,000+ reviews</p>
+                                                    <p className="text-xs text-gray-500">Berdasarkan 2.000+ ulasan</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -295,8 +321,8 @@ export default function Welcome() {
                                                     </svg>
                                                 </div>
                                                 <div className="ml-3">
-                                                    <p className="text-sm font-medium text-gray-900">1,000+ New Listings</p>
-                                                    <p className="text-xs text-gray-500">Added this month</p>
+                                                    <p className="text-sm font-medium text-gray-900">1.000+ Kos Baru</p>
+                                                    <p className="text-xs text-gray-500">Ditambahkan bulan ini</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -309,290 +335,141 @@ export default function Welcome() {
                 </section>
                 <div className="hidden h-14.5 lg:block"></div>
 
-                {/* Featured Properties Section */}
+                {/* Featured Kos Section */}
                 <section id="featured" className="bg-white py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="text-center">
-                            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Featured Properties</h2>
+                            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Kos Pilihan Terbaik</h2>
                             <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-                                Discover our handpicked selection of premium rental properties in Balikpapan
+                                Temukan pilihan kos dan kamar terbaik kami di Balikpapan sesuai dengan kebutuhanmu
                             </p>
                         </div>
 
                         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                            {/* Property Card 1 */}
-                            <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl">
-                                <div className="aspect-w-16 aspect-h-9 overflow-hidden">
-                                    <img
-                                        className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                        alt="Luxury apartment with pool"
-                                    />
-                                    <div className="absolute top-4 left-4">
-                                        <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800">
-                                            Featured
-                                        </span>
-                                    </div>
-                                    <div className="absolute top-4 right-4">
-                                        <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
-                                            Available
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-lg font-bold text-gray-900">Balikpapan Heights Apartment</h3>
-                                        <p className="text-lg font-bold text-blue-600">Rp 5.5jt/bulan</p>
-                                    </div>
-                                    <p className="mt-2 text-sm text-gray-500">
-                                        <svg
-                                            className="mr-1 inline-block h-4 w-4 text-gray-400"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            {featuredKosans && featuredKosans.length > 0 ? (
+                                featuredKosans.map((kosan) => (
+                                    <div
+                                        key={kosan.id}
+                                        className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl"
+                                    >
+                                        <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+                                            <img
+                                                className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                src={
+                                                    kosan.image
+                                                        ? `/storage/${kosan.image}`
+                                                        : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'
+                                                }
+                                                alt={kosan.name}
                                             />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Balikpapan Selatan, 5 menit ke mall
-                                    </p>
-                                    <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <div className="flex items-center space-x-4">
-                                            <div className="flex items-center">
-                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <div className="absolute top-4 left-4">
+                                                <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800">
+                                                    Unggulan
+                                                </span>
+                                            </div>
+                                            <div className="absolute top-4 right-4">
+                                                <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
+                                                    {kosan.status}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="p-6">
+                                            <div className="flex items-center justify-between">
+                                                <h3 className="text-lg font-bold text-gray-900">{kosan.name}</h3>
+                                                <p className="text-lg font-bold text-blue-600">{formatPrice(kosan.price)}</p>
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                <svg
+                                                    className="mr-1 inline-block h-4 w-4 text-gray-400"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
                                                         strokeWidth={2}
-                                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                                                     />
-                                                </svg>
-                                                <span className="ml-2 text-sm text-gray-500">2 Kamar Tidur</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
                                                         strokeWidth={2}
-                                                        d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2"
+                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                                                     />
                                                 </svg>
-                                                <span className="ml-2 text-sm text-gray-500">2 Kamar Mandi</span>
+                                                {kosan.area}, {kosan.address}
+                                            </p>
+                                            <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
+                                                <div className="flex items-center space-x-4">
+                                                    {kosan.facilities &&
+                                                        kosan.facilities.slice(0, 2).map((facility) => (
+                                                            <div key={facility.id} className="flex items-center">
+                                                                {facility.icon ? (
+                                                                    <span
+                                                                        dangerouslySetInnerHTML={{ __html: facility.icon }}
+                                                                        className="h-5 w-5 text-gray-500"
+                                                                    />
+                                                                ) : (
+                                                                    <svg
+                                                                        className="h-5 w-5 text-gray-500"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                        stroke="currentColor"
+                                                                    >
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth={2}
+                                                                            d="M5 13l4 4L19 7"
+                                                                        />
+                                                                    </svg>
+                                                                )}
+                                                                <span className="ml-2 text-sm text-gray-500">{facility.name}</span>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
+                                                        />
+                                                    </svg>
+                                                    <span className="ml-2 text-sm text-gray-500">{kosan.room_size || 'Beragam'}</span>
+                                                </div>
+                                            </div>
+                                            <div className="mt-4">
+                                                <Link
+                                                    href={route('kosans.show', kosan.id)}
+                                                    className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                                                >
+                                                    Lihat Kamar
+                                                </Link>
                                             </div>
                                         </div>
-                                        <div className="flex items-center">
-                                            <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                                                />
-                                            </svg>
-                                            <span className="ml-2 text-sm text-gray-500">72m²</span>
-                                        </div>
                                     </div>
-                                    <div className="mt-4">
-                                        <a
-                                            href="#"
-                                            className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                                        >
-                                            View Details
-                                        </a>
-                                    </div>
+                                ))
+                            ) : (
+                                <div className="col-span-3 py-10 text-center">
+                                    <h3 className="text-lg font-medium text-gray-900">Belum ada kosan unggulan</h3>
+                                    <p className="mt-1 text-sm text-gray-500">Silakan periksa kembali nanti atau cari kosan lainnya</p>
                                 </div>
-                            </div>
-
-                            {/* Property Card 2 */}
-                            <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl">
-                                <div className="aspect-w-16 aspect-h-9 overflow-hidden">
-                                    <img
-                                        className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                        src="https://images.unsplash.com/photo-1592595896551-12b371d546d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                        alt="Modern studio apartment"
-                                    />
-                                    <div className="absolute top-4 right-4">
-                                        <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
-                                            Available
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-lg font-bold text-gray-900">Studio Apartment Balikpapan</h3>
-                                        <p className="text-lg font-bold text-blue-600">Rp 3.8jt/bulan</p>
-                                    </div>
-                                    <p className="mt-2 text-sm text-gray-500">
-                                        <svg
-                                            className="mr-1 inline-block h-4 w-4 text-gray-400"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                            />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Balikpapan Tengah, dekat dengan pusat kota
-                                    </p>
-                                    <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <div className="flex items-center space-x-4">
-                                            <div className="flex items-center">
-                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                                                    />
-                                                </svg>
-                                                <span className="ml-2 text-sm text-gray-500">1 Kamar Tidur</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2"
-                                                    />
-                                                </svg>
-                                                <span className="ml-2 text-sm text-gray-500">1 Kamar Mandi</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M4 8V4m0 0h4m-4 0l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                                                />
-                                            </svg>
-                                            <span className="ml-2 text-sm text-gray-500">45m²</span>
-                                        </div>
-                                    </div>
-                                    <div className="mt-4">
-                                        <a
-                                            href="#"
-                                            className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                                        >
-                                            View Details
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Property Card 3 */}
-                            <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl">
-                                <div className="aspect-w-16 aspect-h-9 overflow-hidden">
-                                    <img
-                                        className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                        src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                        alt="Family house with garden"
-                                    />
-                                    <div className="absolute top-4 left-4">
-                                        <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800">
-                                            Featured
-                                        </span>
-                                    </div>
-                                    <div className="absolute top-4 right-4">
-                                        <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
-                                            Available
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-lg font-bold text-gray-900">Rumah Keluarga Balikpapan Utara</h3>
-                                        <p className="text-lg font-bold text-blue-600">Rp 8.2jt/bulan</p>
-                                    </div>
-                                    <p className="mt-2 text-sm text-gray-500">
-                                        <svg
-                                            className="mr-1 inline-block h-4 w-4 text-gray-400"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                            />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Balikpapan Utara, lingkungan tenang dan asri
-                                    </p>
-                                    <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <div className="flex items-center space-x-4">
-                                            <div className="flex items-center">
-                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                                                    />
-                                                </svg>
-                                                <span className="ml-2 text-sm text-gray-500">3 Kamar Tidur</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2"
-                                                    />
-                                                </svg>
-                                                <span className="ml-2 text-sm text-gray-500">2 Kamar Mandi</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M4 8V4m0 0h4m-4 0l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                                                />
-                                            </svg>
-                                            <span className="ml-2 text-sm text-gray-500">120m²</span>
-                                        </div>
-                                    </div>
-                                    <div className="mt-4">
-                                        <a
-                                            href="#"
-                                            className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                                        >
-                                            View Details
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            )}
                         </div>
 
                         <div className="mt-12 text-center">
-                            <a
-                                href="#"
+                            <Link
+                                href={route('kosans.index')}
                                 className="inline-flex items-center rounded-md border border-blue-600 px-6 py-3 text-base font-medium text-blue-600 shadow-sm hover:bg-blue-50"
                             >
-                                View All Properties
+                                Lihat Semua Kos
                                 <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -607,7 +484,7 @@ export default function Welcome() {
                                 Cara Kerja Smart Living BPN
                             </p>
                             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                                Temukan rumah impian Anda dalam 3 langkah mudah dengan Smart Living BPN
+                                Temukan kos impian Anda dalam 3 langkah mudah dengan Smart Living BPN
                             </p>
                         </div>
 
@@ -627,8 +504,8 @@ export default function Welcome() {
                                     <div className="mt-6 text-center">
                                         <h3 className="text-xl font-medium text-gray-900">1. Cari & Filter</h3>
                                         <p className="mt-2 text-base text-gray-500">
-                                            Cari properti berdasarkan lokasi, harga, dan fasilitas. Kami memiliki ribuan properti di seluruh
-                                            Balikpapan yang siap untuk disewa.
+                                            Cari kos berdasarkan lokasi, harga, dan fasilitas. Kami memiliki ribuan pilihan kos di seluruh Balikpapan
+                                            yang siap untuk disewa.
                                         </p>
                                     </div>
                                 </div>
@@ -648,7 +525,7 @@ export default function Welcome() {
                                     <div className="mt-6 text-center">
                                         <h3 className="text-xl font-medium text-gray-900">2. Pesan & Kunjungi</h3>
                                         <p className="mt-2 text-base text-gray-500">
-                                            Jadwalkan kunjungan ke properti yang Anda minati secara online atau melalui aplikasi kami. Tim kami akan
+                                            Jadwalkan kunjungan ke kos yang Anda minati secara online atau melalui aplikasi kami. Tim kami akan
                                             mendampingi Anda.
                                         </p>
                                     </div>
@@ -677,18 +554,18 @@ export default function Welcome() {
                         </div>
 
                         <div className="mt-16 flex justify-center">
-                            <a
-                                href="#"
+                            <Link
+                                href={route('kosans.index')}
                                 className="inline-flex items-center rounded-md bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
                             >
                                 Mulai Pencarian Sekarang
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </section>
 
                 {/* Services (Layanan) Section */}
-                <section id="services" className="bg-gray-50 py-16">
+                <section id="services" className="bg-white py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="text-center">
                             <h2 className="text-base font-semibold tracking-wide text-blue-600 uppercase">Layanan Kami</h2>
@@ -696,8 +573,7 @@ export default function Welcome() {
                                 Solusi Lengkap untuk Kebutuhan Hunian Anda
                             </p>
                             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                                Smart Living BPN menyediakan berbagai layanan untuk membantu Anda menemukan dan mengelola properti sewaan dengan
-                                mudah.
+                                Smart Living BPN menyediakan berbagai layanan untuk membantu Anda menemukan dan mengelola tempat kos dengan mudah.
                             </p>
                         </div>
 
@@ -709,7 +585,7 @@ export default function Welcome() {
                                         <img
                                             className="h-48 w-full object-cover"
                                             src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                            alt="Property Search"
+                                            alt="Pencarian Kos"
                                         />
                                     </div>
                                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
@@ -728,13 +604,13 @@ export default function Welcome() {
                                                     </span>
                                                 </div>
                                                 <div className="ml-4">
-                                                    <h3 className="text-xl font-medium text-gray-900">Pencarian Properti</h3>
+                                                    <h3 className="text-xl font-medium text-gray-900">Pencarian Kos</h3>
                                                 </div>
                                             </div>
                                             <div className="mt-3">
                                                 <p className="text-base text-gray-500">
-                                                    Temukan properti ideal dengan alat pencarian canggih kami. Filter berdasarkan lokasi, harga,
-                                                    jumlah kamar, dan banyak lagi.
+                                                    Temukan kos ideal dengan alat pencarian canggih kami. Filter berdasarkan lokasi, harga, fasilitas,
+                                                    dan banyak lagi untuk menemukan tempat yang sesuai dengan kebutuhan Anda.
                                                 </p>
                                             </div>
                                         </div>
@@ -753,7 +629,7 @@ export default function Welcome() {
                                         <img
                                             className="h-48 w-full object-cover"
                                             src="https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                            alt="Property Management"
+                                            alt="Manajemen Kos"
                                         />
                                     </div>
                                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
@@ -772,13 +648,13 @@ export default function Welcome() {
                                                     </span>
                                                 </div>
                                                 <div className="ml-4">
-                                                    <h3 className="text-xl font-medium text-gray-900">Manajemen Properti</h3>
+                                                    <h3 className="text-xl font-medium text-gray-900">Manajemen Kos</h3>
                                                 </div>
                                             </div>
                                             <div className="mt-3">
                                                 <p className="text-base text-gray-500">
-                                                    Kami menangani semua aspek manajemen properti, mulai dari perawatan hingga penagihan sewa,
-                                                    sehingga Anda tidak perlu khawatir.
+                                                    Kami menangani semua aspek manajemen kos, mulai dari perawatan hingga penagihan sewa, sehingga
+                                                    Anda tidak perlu khawatir sebagai pemilik maupun penyewa.
                                                 </p>
                                             </div>
                                         </div>
@@ -797,7 +673,7 @@ export default function Welcome() {
                                         <img
                                             className="h-48 w-full object-cover"
                                             src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                            alt="Legal Support"
+                                            alt="Dukungan Legal"
                                         />
                                     </div>
                                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
@@ -821,8 +697,8 @@ export default function Welcome() {
                                             </div>
                                             <div className="mt-3">
                                                 <p className="text-base text-gray-500">
-                                                    Tim hukum kami memastikan semua kontrak dan perjanjian sewa menyewa sesuai dengan peraturan yang
-                                                    berlaku dan melindungi kepentingan semua pihak.
+                                                    Tim hukum kami memastikan semua kontrak dan perjanjian sewa menyewa kos sesuai dengan peraturan
+                                                    yang berlaku dan melindungi kepentingan semua pihak.
                                                 </p>
                                             </div>
                                         </div>
@@ -840,7 +716,7 @@ export default function Welcome() {
                 </section>
 
                 {/* Testimonials Section */}
-                <section id="testimonials" className="bg-white py-16">
+                <section id="testimonials" className="bg-gray-50 py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="text-center">
                             <h2 className="text-base font-semibold tracking-wide text-blue-600 uppercase">Testimoni</h2>
@@ -848,7 +724,7 @@ export default function Welcome() {
                                 Apa Kata Mereka Tentang Kami
                             </p>
                             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                                Dengarkan pengalaman pelanggan yang telah menemukan hunian impian mereka melalui Smart Living BPN.
+                                Dengarkan pengalaman penghuni yang telah menemukan kos impian mereka melalui Smart Living BPN.
                             </p>
                         </div>
 
@@ -865,30 +741,28 @@ export default function Welcome() {
                                                 <div className="ml-4">
                                                     <h3 className="text-lg font-medium text-gray-900">Rudi Santoso</h3>
                                                     <div className="mt-1 flex items-center">
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
+                                                        {[1, 2, 3, 4, 5].map((star) => (
+                                                            <svg
+                                                                key={star}
+                                                                className="h-4 w-4 text-yellow-400"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                            </svg>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="mt-4">
                                                 <p className="text-gray-500">
-                                                    "Smart Living BPN sangat memudahkan saya dalam mencari apartemen di Balikpapan. Proses pencarian
-                                                    hingga penandatanganan kontrak sangat cepat dan efisien. Sangat merekomendasikan!"
+                                                    "Smart Living BPN sangat memudahkan saya dalam mencari kos di Balikpapan. Proses pencarian hingga
+                                                    booking sangat cepat dan efisien. Sangat merekomendasikan!"
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="mt-6 border-t border-gray-200 pt-4 text-sm text-gray-500">
-                                            <p>Penyewa Apartemen - Balikpapan Selatan</p>
+                                            <p>Mahasiswa - Balikpapan Selatan</p>
                                         </div>
                                     </div>
                                 </div>
@@ -904,18 +778,16 @@ export default function Welcome() {
                                                 <div className="ml-4">
                                                     <h3 className="text-lg font-medium text-gray-900">Sarah Wulandari</h3>
                                                     <div className="mt-1 flex items-center">
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
+                                                        {[1, 2, 3, 4, 5].map((star) => (
+                                                            <svg
+                                                                key={star}
+                                                                className="h-4 w-4 text-yellow-400"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                            </svg>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </div>
@@ -944,31 +816,29 @@ export default function Welcome() {
                                                 <div className="ml-4">
                                                     <h3 className="text-lg font-medium text-gray-900">Joko Hartono</h3>
                                                     <div className="mt-1 flex items-center">
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        <svg className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
+                                                        {[1, 2, 3, 4, 5].map((star) => (
+                                                            <svg
+                                                                key={star}
+                                                                className="h-4 w-4 text-yellow-400"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                            </svg>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="mt-4">
                                                 <p className="text-gray-500">
-                                                    "Saya menyewakan beberapa properti melalui Smart Living BPN. Mereka sangat profesional dalam
+                                                    "Saya menyewakan beberapa kamar kos melalui Smart Living BPN. Mereka sangat profesional dalam
                                                     mengelola properti dan penyewa. Pembayaran selalu tepat waktu dan komunikasi lancar. Beban saya
                                                     sebagai pemilik jadi berkurang."
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="mt-6 border-t border-gray-200 pt-4 text-sm text-gray-500">
-                                            <p>Pemilik Properti - Balikpapan Utara</p>
+                                            <p>Pemilik Kos - Balikpapan Utara</p>
                                         </div>
                                     </div>
                                 </div>
@@ -987,7 +857,7 @@ export default function Welcome() {
                 </section>
 
                 {/* Areas We Cover Section */}
-                <section id="areas" className="bg-gray-50 py-16">
+                <section id="areas" className="bg-white py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="text-center">
                             <h2 className="text-base font-semibold tracking-wide text-blue-600 uppercase">Area Jangkauan</h2>
@@ -995,7 +865,7 @@ export default function Welcome() {
                                 Wilayah yang Kami Layani
                             </p>
                             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                                Smart Living BPN hadir di berbagai wilayah di Balikpapan untuk memudahkan pencarian hunian di seluruh kota
+                                Smart Living BPN hadir di berbagai wilayah di Balikpapan untuk memudahkan pencarian kos di seluruh kota
                             </p>
                         </div>
 
@@ -1011,7 +881,7 @@ export default function Welcome() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                     <div className="absolute bottom-0 left-0 w-full p-4">
                                         <h3 className="text-xl font-bold text-white">Balikpapan Selatan</h3>
-                                        <p className="text-sm text-white/80">142 Properti Tersedia</p>
+                                        <p className="text-sm text-white/80">142 Kos Tersedia</p>
                                     </div>
                                 </div>
                             </div>
@@ -1027,7 +897,7 @@ export default function Welcome() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                     <div className="absolute bottom-0 left-0 w-full p-4">
                                         <h3 className="text-xl font-bold text-white">Balikpapan Tengah</h3>
-                                        <p className="text-sm text-white/80">98 Properti Tersedia</p>
+                                        <p className="text-sm text-white/80">98 Kos Tersedia</p>
                                     </div>
                                 </div>
                             </div>
@@ -1043,7 +913,7 @@ export default function Welcome() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                     <div className="absolute bottom-0 left-0 w-full p-4">
                                         <h3 className="text-xl font-bold text-white">Balikpapan Utara</h3>
-                                        <p className="text-sm text-white/80">75 Properti Tersedia</p>
+                                        <p className="text-sm text-white/80">75 Kos Tersedia</p>
                                     </div>
                                 </div>
                             </div>
@@ -1059,7 +929,7 @@ export default function Welcome() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                     <div className="absolute bottom-0 left-0 w-full p-4">
                                         <h3 className="text-xl font-bold text-white">Balikpapan Timur</h3>
-                                        <p className="text-sm text-white/80">63 Properti Tersedia</p>
+                                        <p className="text-sm text-white/80">63 Kos Tersedia</p>
                                     </div>
                                 </div>
                             </div>
@@ -1084,17 +954,17 @@ export default function Welcome() {
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="lg:flex lg:items-center lg:justify-between">
                             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                                <span className="block">Siap untuk menemukan hunian impian Anda?</span>
+                                <span className="block">Siap untuk menemukan kos impian Anda?</span>
                                 <span className="mt-2 block text-xl font-medium">Daftar sekarang dan mulai pencarian dengan Smart Living BPN</span>
                             </h2>
                             <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                                 <div className="inline-flex rounded-md shadow">
-                                    <a
+                                    <Link
                                         href={route('register')}
                                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-blue-700 hover:bg-blue-50"
                                     >
                                         Daftar Sekarang
-                                    </a>
+                                    </Link>
                                 </div>
                                 <div className="ml-3 inline-flex rounded-md shadow">
                                     <a
@@ -1122,7 +992,7 @@ export default function Welcome() {
                                     <h1 className="ml-2 text-2xl font-bold">Smart Living</h1>
                                 </div>
                                 <p className="mt-4 text-sm text-gray-400">
-                                    Smart Living BPN adalah platform digital yang menghubungkan penyewa dan pemilik properti di Balikpapan. Kami
+                                    Smart Living BPN adalah platform digital yang menghubungkan pencari kos dan pemilik kos di Balikpapan. Kami
                                     berkomitmen untuk memudahkan pencarian hunian yang sesuai dengan kebutuhan dan budget Anda.
                                 </p>
                                 <div className="mt-6 flex space-x-4">
@@ -1149,12 +1019,7 @@ export default function Welcome() {
                                     <a href="#" className="text-gray-400 hover:text-white">
                                         <span className="sr-only">Twitter</span>
                                         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
-                                            />
+                                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                                         </svg>
                                     </a>
                                 </div>
@@ -1198,12 +1063,12 @@ export default function Welcome() {
                                 <ul className="mt-4 space-y-2">
                                     <li>
                                         <a href="#" className="text-gray-400 hover:text-white">
-                                            Sewa Properti
+                                            Sewa Kos
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" className="text-gray-400 hover:text-white">
-                                            Manajemen Properti
+                                            Manajemen Kos
                                         </a>
                                     </li>
                                     <li>
@@ -1270,7 +1135,9 @@ export default function Welcome() {
                         </div>
 
                         <div className="mt-12 border-t border-gray-800 pt-8">
-                            <p className="text-center text-sm text-gray-400">&copy; 2023 Smart Living BPN. All rights reserved.</p>
+                            <p className="text-center text-sm text-gray-400">
+                                &copy; {new Date().getFullYear()} Smart Living BPN. All rights reserved.
+                            </p>
                         </div>
                     </div>
                 </footer>

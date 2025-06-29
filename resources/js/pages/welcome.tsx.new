@@ -1,0 +1,446 @@
+import { type Kosan, type KosanFacility, type SharedData } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { useState } from 'react';
+
+interface WelcomeProps {
+    featuredKosans: Kosan[];
+}
+
+export default function Welcome({ featuredKosans }: WelcomeProps) {
+    const { auth } = usePage<SharedData>().props;
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // Format price to Indonesian Rupiah
+    const formatPrice = (price: number) => {
+        if (price >= 1000000) {
+            return `Rp ${(price / 1000000).toFixed(1)}jt/bulan`;
+        } else if (price >= 1000) {
+            return `Rp ${(price / 1000).toFixed(0)}rb/bulan`;
+        }
+        return `Rp ${price}/bulan`;
+    };
+
+    return (
+        <>
+            <Head title="Smart Living BPN - Cari Kos & Kamar Impianmu">
+                <link rel="preconnect" href="https://fonts.bunny.net" />
+                <link href="https://fonts.bunny.net/css?family=poppins:300,400,500,600,700|inter:400,500,600,700" rel="stylesheet" />
+                <meta
+                    name="description"
+                    content="Temukan kos dan kamar terbaik di Balikpapan dengan Smart Living BPN. Cari, bandingkan, dan booking kamar kos dengan mudah sesuai budget dan kebutuhanmu."
+                />
+            </Head>
+            <div className="min-h-screen bg-white">
+                {/* Navigation */}
+                <nav className="fixed top-0 right-0 left-0 z-50 border-b border-gray-100 bg-white/95 shadow-sm backdrop-blur-sm">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="flex h-20 items-center justify-between">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0">
+                                    <div className="flex items-center">
+                                        <svg className="h-8 w-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12,3L2,12h3v8h6v-6h2v6h6v-8h3L12,3z" />
+                                        </svg>
+                                        <h1 className="ml-2 text-2xl font-bold text-gray-900">Smart Living</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-6">
+                                    <a
+                                        href="#featured"
+                                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                    >
+                                        Kos Populer
+                                    </a>
+                                    <a
+                                        href="#how-it-works"
+                                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                    >
+                                        Cara Kerja
+                                    </a>
+                                    <a
+                                        href="#services"
+                                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                    >
+                                        Fasilitas
+                                    </a>
+                                    <a
+                                        href="#testimonials"
+                                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                    >
+                                        Testimoni
+                                    </a>
+                                    <a
+                                        href="#areas"
+                                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                    >
+                                        Wilayah
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Mobile menu button */}
+                            <div className="flex md:hidden">
+                                <button
+                                    type="button"
+                                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-inset"
+                                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                >
+                                    <span className="sr-only">Open main menu</span>
+                                    {!mobileMenuOpen ? (
+                                        <svg
+                                            className="block h-6 w-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            aria-hidden="true"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                        </svg>
+                                    ) : (
+                                        <svg
+                                            className="block h-6 w-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            aria-hidden="true"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    )}
+                                </button>
+                            </div>
+
+                            <div className="hidden items-center gap-4 md:flex">
+                                {auth.user ? (
+                                    <Link
+                                        href={route('dashboard')}
+                                        className="rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href={route('login')}
+                                            className="rounded-lg px-5 py-2 font-medium text-gray-700 transition-colors hover:text-blue-600"
+                                        >
+                                            Log in
+                                        </Link>
+                                        <Link
+                                            href={route('register')}
+                                            className="rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow"
+                                        >
+                                            Get Started
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile menu, show/hide based on mobile menu state */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden">
+                            <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+                                <a
+                                    href="#featured"
+                                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                >
+                                    Kos Populer
+                                </a>
+                                <a
+                                    href="#how-it-works"
+                                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                >
+                                    Cara Kerja
+                                </a>
+                                <a
+                                    href="#services"
+                                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                >
+                                    Fasilitas
+                                </a>
+                                <a
+                                    href="#testimonials"
+                                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                >
+                                    Testimoni
+                                </a>
+                                <a
+                                    href="#areas"
+                                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                >
+                                    Wilayah
+                                </a>
+
+                                <div className="border-t border-gray-200 pt-4 pb-3">
+                                    {auth.user ? (
+                                        <Link
+                                            href={route('dashboard')}
+                                            className="block w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center font-medium text-white hover:bg-blue-700"
+                                        >
+                                            Dashboard
+                                        </Link>
+                                    ) : (
+                                        <div className="flex flex-col space-y-2">
+                                            <Link
+                                                href={route('login')}
+                                                className="block w-full rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center font-medium text-gray-700"
+                                            >
+                                                Log in
+                                            </Link>
+                                            <Link
+                                                href={route('register')}
+                                                className="block w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center font-medium text-white hover:bg-blue-700"
+                                            >
+                                                Get Started
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </nav>
+
+                {/* Hero Section */}
+                <section className="relative bg-gradient-to-b from-blue-50 to-white pt-64 pb-20">
+                    <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="items-center lg:grid lg:grid-cols-12 lg:gap-8">
+                            <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:flex lg:flex-col lg:justify-center lg:text-left">
+                                <div>
+                                    <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-600">
+                                        Cari Kos Mudah & Cepat
+                                    </span>
+                                </div>
+                                <h1 className="mt-6">
+                                    <span className="mt-1 block text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl">
+                                        <span className="block text-gray-900">Temukan Kos</span>
+                                        <span className="block text-blue-600">Nyaman & Terjangkau</span>
+                                    </span>
+                                </h1>
+                                <p className="mt-6 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                                    Jelajahi ribuan pilihan kos dan kamar di Balikpapan. Dari kos eksklusif hingga kos murah, kami membantu kamu
+                                    menemukan hunian yang sesuai dengan kebutuhanmu.
+                                </p>
+
+                                <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start lg:gap-8">
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+                                                <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm font-medium text-gray-900">Kos Terverifikasi</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+                                                <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm font-medium text-gray-900">Booking Instan</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+                                                <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm font-medium text-gray-900">Pembayaran Aman</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative mt-12 sm:mx-auto sm:max-w-lg lg:col-span-6 lg:mx-0 lg:mt-0 lg:flex lg:items-center">
+                                <div className="relative mx-auto w-full">
+                                    <div className="relative">
+                                        <img
+                                            className="h-96 w-full rounded-2xl object-cover shadow-xl sm:h-80 lg:h-96"
+                                            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1073&q=80"
+                                            alt="Beautiful modern home"
+                                        />
+                                        <div className="absolute inset-0 rounded-2xl ring-1 ring-gray-900/10 ring-inset"></div>
+                                    </div>
+                                    <div className="absolute -bottom-14 -left-12 w-60">
+                                        <div className="rounded-lg bg-white p-5 shadow-lg ring-1 ring-gray-900/5">
+                                            <div className="flex">
+                                                <div className="flex-shrink-0">
+                                                    <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                                <div className="ml-3">
+                                                    <p className="text-sm font-medium text-gray-900">4.8/5 Rating</p>
+                                                    <p className="text-xs text-gray-500">Berdasarkan 2.000+ ulasan</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="absolute -top-6 -right-6 w-72">
+                                        <div className="rounded-lg bg-white p-5 shadow-lg ring-1 ring-gray-900/5">
+                                            <div className="flex">
+                                                <div className="flex-shrink-0">
+                                                    <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                                <div className="ml-3">
+                                                    <p className="text-sm font-medium text-gray-900">1.000+ Kos Baru</p>
+                                                    <p className="text-xs text-gray-500">Ditambahkan bulan ini</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="absolute right-0 bottom-0 left-0 h-40 bg-gradient-to-t from-white to-transparent"></div>
+                </section>
+                <div className="hidden h-14.5 lg:block"></div>
+
+                {/* Featured Kos Section */}
+                <section id="featured" className="bg-white py-16">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Kos Pilihan Terbaik</h2>
+                            <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
+                                Temukan pilihan kos dan kamar terbaik kami di Balikpapan sesuai dengan kebutuhanmu
+                            </p>
+                        </div>
+
+                        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                            {featuredKosans && featuredKosans.length > 0 ? (
+                                featuredKosans.map((kosan) => (
+                                    <div key={kosan.id} className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl">
+                                        <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+                                            <img
+                                                className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                src={kosan.image ? `/storage/${kosan.image}` : "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"}
+                                                alt={kosan.name}
+                                            />
+                                            <div className="absolute top-4 left-4">
+                                                <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800">
+                                                    Unggulan
+                                                </span>
+                                            </div>
+                                            <div className="absolute top-4 right-4">
+                                                <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800">
+                                                    {kosan.status}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="p-6">
+                                            <div className="flex items-center justify-between">
+                                                <h3 className="text-lg font-bold text-gray-900">{kosan.name}</h3>
+                                                <p className="text-lg font-bold text-blue-600">{formatPrice(kosan.price)}</p>
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                <svg
+                                                    className="mr-1 inline-block h-4 w-4 text-gray-400"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                    />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                </svg>
+                                                {kosan.area}, {kosan.address}
+                                            </p>
+                                            <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
+                                                <div className="flex items-center space-x-4">
+                                                    {kosan.facilities && kosan.facilities.slice(0, 2).map((facility) => (
+                                                        <div key={facility.id} className="flex items-center">
+                                                            {facility.icon ? (
+                                                                <span dangerouslySetInnerHTML={{ __html: facility.icon }} className="h-5 w-5 text-gray-500" />
+                                                            ) : (
+                                                                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={2}
+                                                                        d="M5 13l4 4L19 7"
+                                                                    />
+                                                                </svg>
+                                                            )}
+                                                            <span className="ml-2 text-sm text-gray-500">{facility.name}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
+                                                        />
+                                                    </svg>
+                                                    <span className="ml-2 text-sm text-gray-500">{kosan.room_size || 'Beragam'}</span>
+                                                </div>
+                                            </div>
+                                            <div className="mt-4">
+                                                <Link
+                                                    href={route('kosans.show', kosan.id)}
+                                                    className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                                                >
+                                                    Lihat Kamar
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="col-span-3 py-10 text-center">
+                                    <h3 className="text-lg font-medium text-gray-900">Belum ada kosan unggulan</h3>
+                                    <p className="mt-1 text-sm text-gray-500">Silakan periksa kembali nanti atau cari kosan lainnya</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </>
+    );
+}

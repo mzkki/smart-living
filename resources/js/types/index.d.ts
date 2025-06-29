@@ -28,6 +28,10 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    flash: {
+        success?: string;
+        error?: string;
+    };
     [key: string]: unknown;
 }
 
@@ -40,4 +44,30 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Kosan {
+    id: number;
+    name: string;
+    price: number;
+    address: string;
+    description: string | null;
+    status: string;
+    type: string;
+    room_size: string | null;
+    image: string | null;
+    featured: boolean;
+    area: string;
+    created_at: string;
+    updated_at: string;
+    facilities: KosanFacility[];
+}
+
+export interface KosanFacility {
+    id: number;
+    kosan_id: number;
+    name: string;
+    icon: string | null;
+    created_at: string;
+    updated_at: string;
 }
